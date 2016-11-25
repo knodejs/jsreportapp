@@ -6,8 +6,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static(pub));
 
+var port=process.env.PORT | 3000;
 
 if (!module.parent) {
-    app.listen(3000);
-    console.log("Express server listening on port %d", 3000);
+    app.listen(port);
+    console.log("Express server listening on port %d", port);
 }
