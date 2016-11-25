@@ -1,58 +1,6 @@
-var orderData = [{
-    "userId": "1X39AN4Z92Y",
-    "userName": "John Smith",
-    "accountType": "INDIVIDUAL",
-    "orderTotal": 19.95,
-    "orderDate": "2016-02-24"
-}, {
-    "userId": "1AC43L30HR8",
-    "userName": "Alison Jones",
-    "accountType": "BUSINESS",
-    "orderTotal": 180.50,
-    "orderDate": "2016-02-25"
-}, {
-    "userId": "1CM499NA94R",
-    "userName": "Becky Sanderson",
-    "accountType": "BUSINESS",
-    "orderTotal": 85.00,
-    "orderDate": "2016-02-27"
-}];
-
-var orderSchema = {
-    fields: [{
-        name: "userId",
-        type: "text"
-    }, {
-        name: "userName",
-        type: "text"
-    }, {
-        name: "accountType",
-        type: "text"
-    }, {
-        name: "orderTotal",
-        type: "number"
-    }, {
-        name: "orderDate",
-        type: "date"
-    }]
-};
-
-var data_sources = [{
-    "id": "Orders",
-    "name": "Orders",
-    "data": orderData,
-    "schema": orderSchema
-}, {
-    "id": "Rtos",
-    "name": "Rtos",
-    "data": GLOBAL_mockData['datas']['rto'],
-    "schema": {
-        fields: GLOBAL_mockData['schemas']['rto']
-    }
-}];
-
+var data_sources = [];
+var report_def = {};
 $(document).ready(function() {
-    //RenderDefaultReport();
     InitialUI();
 });
 
@@ -99,8 +47,8 @@ var RenderReportFromSelectDataSource = function(selectedDataSources) {
         if (isString(selectedDataSources[i])) {
             defaultDataSource = selectedDataSources[i];
             var newDataSource = {
-                id: selectedDataSources[i] + 's',
-                name: selectedDataSources[i] + 's',
+                id: selectedDataSources[i],
+                name: selectedDataSources[i],
                 "data": GLOBAL_mockData['datas'][selectedDataSources[i]],
                 "schema": {
                     fields: GLOBAL_mockData['schemas'][selectedDataSources[i]]
@@ -115,8 +63,8 @@ var RenderReportFromSelectDataSource = function(selectedDataSources) {
     console.log(newJsonDesigner);
 
 
-    reportdef=newJsonDesigner;
-    data_sources=newDataSources;
+    report_def = newJsonDesigner;
+    data_sources = newDataSources;
 
 
     renderNewDesigner(newDataSources, newJsonDesigner);
@@ -139,38 +87,7 @@ var renderNewDesigner = function(newDataSources, newJsonDesigner) {
         //TODO
         //POST TO WEB API
         //update preview
-        refreshPreview(report_def);
-    });
-};
-
-
-
-
-var RenderDefaultReport = function() {
-
-    //$("#divDataSourceSection").css("display", "none");
-    //$("#divReportSection").css("display", "inline");
-
-
-    var report = jsreports.createReport()
-        .data('orders')
-        .header(1.0)
-        .detail(0.3)
-        .footer(1.0)
-        .done();
-
-    var designer = new jsreports.Designer({
-        embedded: true,
-        container: $(".report-designer"),
-        data_sources: data_sources,
-        report_def: report,
-        layout: "horizontal"
-    });
-
-
-    $(designer).on("save", function(evt, reportdef) {
-        console.log(reportdef)
-        preview(reportdef);
+        refreshNewPreview(report_def);
     });
 };
 
@@ -186,14 +103,4 @@ var refreshNewPreview = function(report_def) {
 
 function isString(o) {
     return typeof o == "string";
-}
-
-
-function preview(reportdef) {
-    report_def = JSON.parse(reportdef);
-    jsreports.render({
-        report_def: report_def,
-        target: $(".report_preview"),
-        datasets: data_sources
-    });
 }
