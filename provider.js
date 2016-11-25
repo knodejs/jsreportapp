@@ -4,71 +4,71 @@ mongoose.connect('mongodb://nat:s56255625@ds163377.mlab.com:63377/jsreports');
 var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
 
-var Comments = new Schema({
+var TemplateVersions = new Schema({
     person     : String
   , comment    : String
   , created_at : Date
 });
 
-var Post = new Schema({
+var TemplateBase = new Schema({
     author      : ObjectId
   , title       : String
   , body        : String
   , created_at  : Date
-  , comments    : [Comments]
+  , templateVersions    : [TemplateVersions]
 });
 
-mongoose.model('Post', Post);
-var Post = mongoose.model('Post');
+mongoose.model('TemplateBase', TemplateBase);
+var TemplateBase = mongoose.model('TemplateBase');
 
-PostProvider = function(){};
+TemplateProvider = function(){};
 
-//Find all posts
-PostProvider.prototype.findAll = function(callback) {
-  Post.find({}, function (err, posts) {
-    callback( null, posts )
+//Find all TemplateBases
+TemplateProvider.prototype.findAll = function(callback) {
+  TemplateBase.find({}, function (err, templateBases) {
+    callback( null, templateBases )
   });
 };
 
-//Find post by ID
-PostProvider.prototype.findById = function(id, callback) {
-  Post.findById(id, function (err, post) {
+//Find TemplateBase by ID
+TemplateProvider.prototype.findById = function(id, callback) {
+  TemplateBase.findById(id, function (err, templateBase) {
     if (!err) {
-	  callback(null, post);
+	  callback(null, templateBase);
 	}
   });
 };
 
-//Update post by ID
-PostProvider.prototype.updateById = function(id, body, callback) {
-  Post.findById(id, function (err, post) {
+//Update TemplateBase by ID
+TemplateProvider.prototype.updateById = function(id, body, callback) {
+  TemplateBase.findById(id, function (err, templateBase) {
     if (!err) {
-	  post.title = body.title;
-	  post.body = body.body;
-	  post.save(function (err) {
+	  templateBase.title = body.title;
+	  templateBase.body = body.body;
+	  templateBase.save(function (err) {
 	    callback();
 	  });
 	}
   });
 };
 
-//Create a new post
-PostProvider.prototype.save = function(params, callback) {
-  var post = new Post({title: params['title'], body: params['body'], created_at: new Date()});
-  post.save(function (err) {
+//Create a new TemplateBase
+TemplateProvider.prototype.save = function(params, callback) {
+  var templateBase = new TemplateBase({title: params['title'], body: params['body'], created_at: new Date()});
+  templateBase.save(function (err) {
     callback();
   });
 };
 
-//Add comment to post
-PostProvider.prototype.addCommentToPost = function(postId, comment, callback) {
+//Add comment to TemplateVersion
+TemplateProvider.prototype.addCommentToPost = function(postId, comment, callback) {
   this.findById(postId, function(error, post) {
     if(error){
 	  callback(error)
 	}
     else {
-	  post.comments.push(comment);
-	  post.save(function (err) {
+	  templateBase.templateVersions.push(comment);
+	  templateBase.save(function (err) {
 	    if(!err){
 		  callback();
 	    }
@@ -77,4 +77,4 @@ PostProvider.prototype.addCommentToPost = function(postId, comment, callback) {
   });
 };
 
-exports.PostProvider = PostProvider;
+exports.TemplateProvider = TemplateProvider;
