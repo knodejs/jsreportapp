@@ -5,3 +5,7 @@
 .report_preview{
   min-height: 650px;
 }
+
+pre{
+  height: 600px;
+}
