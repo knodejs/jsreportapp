@@ -4,16 +4,44 @@
 <head>
     <meta charset="utf-8">
     <title>JsReport : New Template</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/semantic.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
     <h2>JsReport : New Template</h2>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" charset="utf-8"></script>
+    <div id="divDataSourceSection" style="display:inline;">
+        <h3>1: Select Data Source</h3>
+        <div class="">
+            <select id="selDatasources" name="selDatasources" multiple="" class="ui dropdown">
+              <option value="">Data Sources</option>
+              <option value="rto">Rto</option>
+              <option value="org">Org</option>
+              <option value="admin">Admin</option>
+              <option value="invoice">Invoice</option>
+            </select>
+        </div>
+        <div style="margin-top : 5px;">
+            <button id="btnDesigner" type="button" class="ui primary button">Designer</button>
+        </div>
+    </div>
+
+    <div id='divReportSection' style="display:none;">
+        <div class="report-designer">
+
+        </div>
+
+        <div class="report_preview">
+
+        </div>
+    </div>
+
+    <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <script src="js/semantic.js"></script>
+    <script src="js/jsreports-all.min.js" type="text/javascript"></script>
     <script src="js/share.js" charset="utf-8"></script>
+    <script src="js/jsonreport.js" charset="utf-8"></script>
     <script src="js/newtemplate.js" charset="utf-8"></script>
 </body>
 

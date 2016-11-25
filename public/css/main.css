@@ -1,3 +1,7 @@
-body{
-  margin-left: 20px !important;
+.report-designer{
+  min-height: 650px;
+}
+
+.report_preview{
+  min-height: 650px;
 }
